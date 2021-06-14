@@ -87,3 +87,55 @@ class HomeController extends AbstractController
     }
 }
 ```
+
+or use the `Kikwik\DebounceBundle\Model\DebounceTrait` to generate some fields in the entity:
+
+```php
+namespace App\Entity;
+
+use Kikwik\DebounceBundle\Model\DebounceTrait;
+
+/**
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="`user`")
+ */
+class User implements UserInterface
+{
+    use DebounceTrait;
+}
+```
+
+and then call `$user->setDebounceResponse($debounce->check($email));` to save debounce results in the entity
+
+```php
+namespace App\Controller;
+
+use Kikwik\DebounceBundle\Service\Debounce;
+
+class HomeController extends AbstractController
+{
+    /**
+     * @Route("/debounce/{email}", name="app_debounce")
+     */
+    public function debounce($email, Debounce $debounce, UserRepository $userRepository, EntityManagerInterface $entityManager)
+    {
+        $user = $userRepository->findOneByEmail($email);
+        if(!$user)
+        {
+            return $this->createNotFoundException();
+        }
+
+        $user->setDebounceResponse($debounce->check($email));
+        $entityManager->flush();
+        
+        if($user->getIsDebounceSafe())
+        {
+            // safe email!!!
+            $debounceCode = $user->getDebounceResponseCode();
+            // ...  
+        }
+
+        return $this->redirectToRoute('app_home');
+    }
+}
+```

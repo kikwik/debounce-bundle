@@ -104,8 +104,14 @@ class User implements UserInterface
     use DebounceTrait;
 }
 ```
+Don't forget to make migrations and update your database:
 
-and then call `$user->setDebounceResponse($debounce->check($email));` to save debounce results in the entity
+```console
+$ php bin/console make:migration
+$ php bin/console doctrine:migrations:migrate
+```
+
+Finally call `$user->setDebounceResponse($debounce->check($email));` to save debounce results in the entity
 
 ```php
 namespace App\Controller;

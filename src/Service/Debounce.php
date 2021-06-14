@@ -24,15 +24,27 @@ class Debounce
 
     public function check(string $email)
     {
-        $response = $this->client->request(
-            'GET',
-            'https://api.debounce.io/v1/',[
-                'query' => [
-                    'api' => $this->apiKey,
-                    'email' => $email,
-                ],
-            ]
-        );
-        return json_decode($response->getContent(),true);
+        if($this->apiKey)
+        {
+            $response = $this->client->request(
+                'GET',
+                'https://api.debounce.io/v1/',[
+                    'query' => [
+                        'api' => $this->apiKey,
+                        'email' => $email,
+                    ],
+                ]
+            );
+            return json_decode($response->getContent(),true);
+        }
+        else
+        {
+            return [
+                'success' => '0',
+                'debounce' => [
+                    'error' => 'API Key not defined'
+                ]
+            ];
+        }
     }
 }

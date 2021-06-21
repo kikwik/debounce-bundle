@@ -33,7 +33,7 @@ trait DebounceTrait
         if($debounceResponse['success']==1)
         {
             $this->debounceResponseCode = $debounceResponse['debounce']['code'];
-            $this->isDebounceSafe = in_array($debounceResponse['debounce']['code'],[4,5,8]);
+            $this->isDebounceSafe = in_array($debounceResponse['debounce']['code'],[4,5,7,8]);
         }
         else
         {

@@ -21,6 +21,7 @@ class KikwikDebounceExtension extends Extension
 
         $mailManager = $container->getDefinition('kikwik_debounce.service.debounce');
         $mailManager->setArgument('$apiKey', $config['api_key']);
+        $mailManager->setArgument('$safeCodes', $config['safe_codes']);
     }
 
 }

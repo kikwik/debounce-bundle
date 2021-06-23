@@ -14,12 +14,17 @@ class Debounce implements DebounceInterface
      * @var \Symfony\Contracts\HttpClient\HttpClientInterface
      */
     private $client;
+    /**
+     * @var array
+     */
+    private $safeCodes;
 
 
-    public function __construct(string $apiKey, HttpClientInterface $client)
+    public function __construct(string $apiKey, array $safeCodes, HttpClientInterface $client)
     {
         $this->apiKey = $apiKey;
         $this->client = $client;
+        $this->safeCodes = $safeCodes;
     }
 
     public function check(string $email): array
@@ -35,7 +40,9 @@ class Debounce implements DebounceInterface
                     ],
                 ]
             );
-            return json_decode($response->getContent(),true);
+            $result = json_decode($response->getContent(),true);
+            $result['isSafe'] = in_array($result['debounce']['code'],$this->safeCodes);
+            return $result;
         }
         else
         {

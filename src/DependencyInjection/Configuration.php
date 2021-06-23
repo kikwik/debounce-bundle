@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('api_key')->defaultValue('')->cannotBeEmpty()->end()
+                ->arrayNode('safe_codes')->integerPrototype()->end()->defaultValue([4,5,7,8])->end()
             ->end()
         ;
 

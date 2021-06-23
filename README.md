@@ -17,11 +17,13 @@ $ composer require kikwik/debounce-bundle
 Configuration
 -------------
 
-Create the `config/packages/kikwik_debounce.yaml` config file, set the `api_key` parameter
+Create the `config/packages/kikwik_debounce.yaml` config file, set the `api_key` parameter 
+and define the return codes (as array) which you consider safe for your application (default is [4,5,7,8])
 
 ```yaml
 kikwik_debounce:
     api_key: '%env(DEBOUNCE_API_KEY)%'
+    safe_codes: [4,5,7,8]
 ```
 
 create the api from [https://app.debounce.io/api](https://app.debounce.io/api) and copy it in your .env file

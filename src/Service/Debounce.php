@@ -4,7 +4,7 @@ namespace Kikwik\DebounceBundle\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Debounce
+class Debounce implements DebounceInterface
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class Debounce
         $this->client = $client;
     }
 
-    public function check(string $email)
+    public function check(string $email): array
     {
         if($this->apiKey)
         {

@@ -33,19 +33,19 @@ DEBOUNCE_API_KEY=xxxxxxxxxxx
 Usage
 -----
 
-Autowire the `Kikwik\DebounceBundle\Service\Debounce` service in your controller and call `check` method:
+Autowire the `Kikwik\DebounceBundle\Service\DebounceInterface` service in your controller and call `check` method:
 
 ```php
 namespace App\Controller;
 
-use Kikwik\DebounceBundle\Service\Debounce;
+use Kikwik\DebounceBundle\Service\DebounceInterface;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/debounce/{email}", name="app_debounce")
      */
-    public function debounce($email, Debounce $debounce)
+    public function debounce($email, DebounceInterface $debounce)
     {
         $message = '';
         $result = $debounce->check($email);
@@ -116,14 +116,14 @@ Finally call `$user->setDebounceResponse($debounce->check($email));` to save deb
 ```php
 namespace App\Controller;
 
-use Kikwik\DebounceBundle\Service\Debounce;
+use Kikwik\DebounceBundle\Service\DebounceInterface;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/debounce/{email}", name="app_debounce")
      */
-    public function debounce($email, Debounce $debounce, UserRepository $userRepository, EntityManagerInterface $entityManager)
+    public function debounce($email, DebounceInterface $debounce, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         $user = $userRepository->findOneByEmail($email);
         if(!$user)

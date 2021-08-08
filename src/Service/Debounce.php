@@ -31,18 +31,29 @@ class Debounce implements DebounceInterface
     {
         if($this->apiKey)
         {
-            $response = $this->client->request(
-                'GET',
-                'https://api.debounce.io/v1/',[
-                    'query' => [
-                        'api' => $this->apiKey,
-                        'email' => $email,
-                    ],
-                ]
-            );
-            $result = json_decode($response->getContent(),true);
-            $result['isSafe'] = in_array($result['debounce']['code'],$this->safeCodes);
-            return $result;
+            try {
+                $response = $this->client->request(
+                    'GET',
+                    'https://api.debounce.io/v1/',[
+                        'query' => [
+                            'api' => $this->apiKey,
+                            'email' => $email,
+                        ],
+                    ]
+                );
+                $result = json_decode($response->getContent(),true);
+                $result['isSafe'] = in_array($result['debounce']['code'],$this->safeCodes);
+                return $result;
+            }
+            catch (\Throwable $e)
+            {
+                return [
+                    'success' => '0',
+                    'debounce' => [
+                        'error' => $e->getMessage()
+                    ]
+                ];
+            }
         }
         else
         {

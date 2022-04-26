@@ -9,22 +9,27 @@ class Debounce implements DebounceInterface
     /**
      * @var string
      */
-    private $apiKey;
+    private $apiUrl;
     /**
-     * @var \Symfony\Contracts\HttpClient\HttpClientInterface
+     * @var string
      */
-    private $client;
+    private $apiKey;
     /**
      * @var array
      */
     private $safeCodes;
+    /**
+     * @var \Symfony\Contracts\HttpClient\HttpClientInterface
+     */
+    private $client;
 
 
-    public function __construct(string $apiKey, array $safeCodes, HttpClientInterface $client)
+    public function __construct(string $apiKey, string $apiUrl, array $safeCodes, HttpClientInterface $client)
     {
+        $this->apiUrl = $apiUrl;
         $this->apiKey = $apiKey;
-        $this->client = $client;
         $this->safeCodes = $safeCodes;
+        $this->client = $client;
     }
 
     public function check(string $email): array
@@ -34,7 +39,8 @@ class Debounce implements DebounceInterface
             try {
                 $response = $this->client->request(
                     'GET',
-                    'https://api.debounce.io/v1/',[
+                    $this->apiUrl,
+                    [
                         'query' => [
                             'api' => $this->apiKey,
                             'email' => $email,

@@ -19,9 +19,10 @@ class KikwikDebounceExtension extends Extension
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $mailManager = $container->getDefinition('kikwik_debounce.service.debounce');
-        $mailManager->setArgument('$apiKey', $config['api_key']);
-        $mailManager->setArgument('$safeCodes', $config['safe_codes']);
+        $debounceService = $container->getDefinition('kikwik_debounce.service.debounce');
+        $debounceService->setArgument('$apiUrl', $config['api_url']);
+        $debounceService->setArgument('$apiKey', $config['api_key']);
+        $debounceService->setArgument('$safeCodes', $config['safe_codes']);
     }
 
 }

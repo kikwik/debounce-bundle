@@ -6,9 +6,10 @@
   <services>
 
       <service id="kikwik_debounce.service.debounce" class="Kikwik\DebounceBundle\Service\Debounce">
-        <argument>$apiKey</argument>
-        <argument>$safeCodes</argument>
-        <argument type="service" id="http_client"/>
+          <argument>$apiUrl</argument>
+          <argument>$apiKey</argument>
+          <argument>$safeCodes</argument>
+          <argument type="service" id="http_client"/>
       </service>
       <service id="Kikwik\DebounceBundle\Service\DebounceInterface" alias="kikwik_debounce.service.debounce" />
 

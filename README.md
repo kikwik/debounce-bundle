@@ -147,3 +147,21 @@ class HomeController extends AbstractController
     }
 }
 ```
+
+Configure dev/test environment
+------------------------------
+Add fake_debounce_server route in `config/routes/dev/kikwik_debounce.yaml` and `config/routes/test/kikwik_debounce.yaml`
+
+```yaml        
+kikwik_debounce_bundle:
+    resource: '@KikwikDebounceBundle/Resources/config/routes_dev_test.xml'
+    prefix: '/'
+```
+
+Add dev/test configuration in `config/packages/dev/kikwik_debounce.yaml` and `config/packages/test/kikwik_debounce.yaml`
+
+```yaml 
+kikwik_debounce:
+    api_url: http://concorsiweb2022.sf5.local/_fake_debounce_server
+    api_key: xxxxx
+```

@@ -2,7 +2,8 @@
 
 namespace Kikwik\DebounceBundle\Model;
 
-use phpDocumentor\Reflection\Types\Boolean;
+
+use Doctrine\ORM\Mapping as ORM;
 
 trait DebounceTrait
 {
